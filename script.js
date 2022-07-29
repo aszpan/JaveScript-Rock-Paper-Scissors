@@ -1,24 +1,63 @@
-//player makes choice
+// initialize scores
+var wins = 0;
+var ties = 0;
+var losses = 0;
 
-playerChoice = prompt("[R]ock, [P]aper, or [S]cissors?");
 
-//computer makes choice
+// Array of options for computer to pick from
+var options = ["R", "P", "S"];
 
-//The Math.random() function returns a floating-point, pseudo-random number in the range 0 to less than 1 (inclusive of 0, but not 1) with approximately uniform distribution over that range — which you can then scale to your desired range. The implementation selects the initial seed to the random number generation algorithm; it cannot be chosen or reset by the user.
-//https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
+var playGame = function() {
+  // Ask user for their choice
+  var userChoice = window.prompt("Enter R for Rock, P for Paper, or S for Scissors:");
 
-computerChoice = math.Random();
-if (computerChoice < 0.34) {
-    computerChoice = "R";
-} else if(computerChoice <= 0.67) {
-    computerChoice = "P";
-} else {
-    computerChoice = "S";
-}
+  // If user pressed Cancel, immediately end function
+  if (!userChoice) {
+    return;
+  }
 
-//decision re: if player or computer wins [could use else/else if or switch]
+  // Convert to uppercase to make comparisons easier
+  userChoice = userChoice.toUpperCase();
 
-//display stats (won or lost and total score)
+  // Get random index from array of options
+  var index = Math.floor(Math.random() * options.length);
+  var computerChoice = options[index];
 
-//ask if they want to play again
+  window.alert("The computer chose " + computerChoice);
 
+  // If choices are the same, it's a tie
+  if (userChoice === computerChoice) {
+    ties++;
+    window.alert("It's a tie!");
+
+  // Check every win condition for the player
+  } else if (
+    (userChoice === "R" && computerChoice === "S") || 
+    (userChoice === "P" && computerChoice === "R") || 
+    (userChoice === "S" && computerChoice === "P")
+  ) {
+    wins++;
+    window.alert("You win!");
+
+  // If above conditions failed, assume player lost
+  } else {
+    losses++;
+    window.alert("You lost!");
+  }
+
+  // Print stats with line breaks
+  window.alert(
+    "Stats:\nWins: " + wins + "\nLosses: " + losses + "\nTies: " + ties
+  );
+
+  // Ask user to play again
+  var playAgain = window.confirm("Play again?");
+
+  // If user pressed OK, run the function again
+  if (playAgain) {
+    playGame();
+  }
+};
+
+// Run the game for the first time
+playGame();
